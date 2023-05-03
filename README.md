@@ -1,7 +1,7 @@
 # shell-like-cui
 
 ```sh
-pip install shell-like-cui
+pip install shelllikecui
 ```
 
 ## todo

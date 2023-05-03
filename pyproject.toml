@@ -1,5 +1,5 @@
 [project]
-name = "shell-like-cui"
+name = "shelllikecui"
 version = "0.0.1"
 description = "shell like CUI"
 readme = "README.md"
