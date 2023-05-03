@@ -7,3 +7,5 @@ pip install shelllikecui
 ## todo
 
 multithread
+
+linux support
