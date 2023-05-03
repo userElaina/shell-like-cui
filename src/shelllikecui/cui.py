@@ -1,5 +1,6 @@
-from typing import Union, Callable, Iterable
+import sys
 import time
+from typing import Union, Callable, Iterable
 
 _CNF = 'command_not_found'
 
@@ -30,6 +31,20 @@ def make_command(name: str, func: Callable, alias: Union[Iterable[str], str] = (
     return a
 
 
+def _command_not_found(arg: str) -> int:
+    f, arg = arg.split(' ', 1)
+    print('Command Not Found:', f)
+    return None
+
+
+def _exit(arg: str):
+    sys.exit(0)
+    return None
+
+def _none(arg: str):
+    return None
+
+
 class Cui:
     def __init__(self) -> None:
         # self.pth = './'
@@ -39,6 +54,11 @@ class Cui:
         self.clk = 0.1
         self.all_cmd = dict()
         self.alias = dict()
+
+        self.register(make_command(_CNF, _command_not_found, 'cnf',
+                                   'Command Not Found Exception default function'))
+        self.register(make_command('exit', _exit, list(), 'exit by Python'))
+        self.register(make_command('', _none, list(), 'nothing'))
 
     def slp(self, i: int = 1) -> None:
         time.sleep(self.clk * i)
@@ -61,9 +81,9 @@ class Cui:
 
     def _get_func(self, name: str) -> Callable:
         return self.all_cmd[self.alias.get(name, _CNF)]
-    
-    def exec(self, s:str):
-        s += ' '
+
+    def exec(self, s: str):
+        s = s.strip() + ' '
         name = s.split(' ', 1)[0]
         return self._get_func(name)(s)
 

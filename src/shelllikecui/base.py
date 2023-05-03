@@ -1,17 +1,10 @@
-import sys
 import shlex
 import subprocess
-
-from .cui import Cui, make_command, _CNF
+from .cui import Cui, make_command
 
 
 def make_cui0() -> Cui:
     return Cui()
-
-
-def _command_not_found(arg: str) -> int:
-    f, arg = arg.split(' ', 1)
-    print('Command Not Found:', f)
 
 
 def _exec(arg: str):
@@ -20,6 +13,7 @@ def _exec(arg: str):
         exec(arg)
     except Exception as e:
         print(repr(e))
+    return None
 
 
 def _eval(arg: str):
@@ -28,25 +22,18 @@ def _eval(arg: str):
         print(eval(arg))
     except Exception as e:
         print(repr(e))
-
-def _exit(arg: str):
-    sys.exit(0)
+    return None
 
 
 def make_cui1() -> Cui:
-    a = Cui()
-
-    a.register(make_command(_CNF, _command_not_found, 'cnf',
-               'Command Not Found Exception default function'))
+    a = make_cui0()
+    a.register(make_command('exec', _exec, list(), 'exec by Python'))
+    a.register(make_command('eval', _eval, list(), 'eval by Python'))
 
     def _cui(arg: str):
         f, arg = arg.split(' ', 1)
         return a.exec(arg)
     a.register(make_command('cui', _cui, list(), 'exec by its Interpreter'))
-
-    a.register(make_command('exec', _exec, list(), 'exec by Python'))
-    a.register(make_command('eval', _eval, list(), 'eval by Python'))
-    a.register(make_command('exit', _exit, list(), 'exit by Python'))
 
     def _sh(arg: str):
         f, arg = arg.split(' ', 1)
@@ -59,6 +46,7 @@ def make_cui1() -> Cui:
         while p.poll() is None:
             a.slp()
         print(p.stdout.read().decode('utf8'))
+        return None
     a.register(make_command('sh', _sh, 'shell', 'exec by Shell'))
 
     return a
