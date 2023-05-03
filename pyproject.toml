@@ -1,6 +1,6 @@
 [project]
 name = "shelllikecui"
-version = "0.0.1"
+version = "0.0.2"
 description = "shell like CUI"
 readme = "README.md"
 requires-python = ">=3.7"
