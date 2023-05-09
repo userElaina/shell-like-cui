@@ -9,3 +9,5 @@ pip install shelllikecui
 multithread
 
 linux support
+
+ANSI support
