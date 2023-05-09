@@ -1,15 +1,24 @@
-from shelllikecui import make_cui1, make_command
+from shelllikecui import mkcui1
 
-a = make_cui1()
+a = mkcui1()
 
 
-def qwq(arg: str):
+def qwq(arg: str) -> None:
     print('QAQ')
 
 
-a.register(make_command('qwq', qwq, 'qaq', 'QwQ'))
+a.mkcmd('qwq', qwq, ['qaq', 'quq'], 'QwQ')
 
 print(a.all_cmd)
 print(a.alias)
 
 a.always_input()
+
+'''
+qwq
+help
+exec print(1)
+eval 1+2
+eval 'a'
+exit
+'''
